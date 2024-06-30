@@ -1,0 +1,77 @@
+import { useState, useEffect, useContext, createContext } from "react";
+
+import { functionClient } from "../functionClient";
+import { Directory } from "./Directory";
+import { File } from "./File";
+
+export class Project {
+  constructor() {
+    this._setFilesArray = [];
+    this._loadFiles();
+  }
+
+  useFiles() {
+    let [files, setFiles] = useState({
+      isPending: !this._files,
+      files: this._files,
+    });
+
+    useEffect(() => {
+      this._setFilesArray.push(setFiles);
+      if (files !== this._files) {
+        setFiles({ isPending: !this._files, files: this._files });
+      }
+
+      return () => {
+        this._setFilesArray = this._setFilesArray.filter(
+          (fn) => fn !== setFiles,
+        );
+      };
+    }, []);
+
+    return files;
+  }
+
+  _setFiles(files) {
+    this._files = files;
+    this._setFilesArray.forEach((setFiles) => {
+      setFiles({ isPending: false, files: this._files });
+    });
+  }
+
+  async _loadFiles() {
+    let files = await functionClient.getFunction("parseDirectory")();
+
+    let traverse = (nodeData) => {
+      let node;
+      switch (nodeData.type) {
+        case "directory":
+          let children = nodeData.children.map(traverse);
+          node = new Directory(nodeData.name, nodeData.path, children);
+
+          return node;
+        case "file":
+          node = new File(nodeData.name, nodeData.path);
+          break;
+      }
+
+      return node;
+    };
+
+    this._setFiles(traverse(files));
+  }
+}
+
+const ProjectContext = createContext();
+
+export function ProjectContextProvider({ project, children }) {
+  return (
+    <ProjectContext.Provider value={project}>
+      {children}
+    </ProjectContext.Provider>
+  );
+}
+
+export function useProject() {
+  return useContext(ProjectContext);
+}
