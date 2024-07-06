@@ -7,4 +7,8 @@ export default defineConfig({
   build: {
     outDir: "../public",
   },
+  define: {
+    "process.env": {},
+    "Buffer.isBuffer": () => false,
+  },
 });

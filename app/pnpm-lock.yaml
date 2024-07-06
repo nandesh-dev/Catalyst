@@ -8,7 +8,10 @@ importers:
 
   .:
     dependencies:
-      '@babel/standalone':
+      '@babel/parser':
+        specifier: ^7.24.7
+        version: 7.24.7
+      '@babel/traverse':
         specifier: ^7.24.7
         version: 7.24.7
       fn-sync:
@@ -155,10 +158,6 @@ packages:
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
-
-  '@babel/standalone@7.24.7':
-    resolution: {integrity: sha512-QRIRMJ2KTeN+vt4l9OjYlxDVXEpcor1Z6V7OeYzeBOw6Q8ew9oMTHjzTx8s6ClsZO7wVf6JgTRutihatN6K0yA==}
-    engines: {node: '>=6.9.0'}
 
   '@babel/template@7.24.7':
     resolution: {integrity: sha512-jYqfPrU9JTF0PmPy1tLYHW4Mp4KlgxJD9l2nP9fD6yT/ICi554DmrWBAEYpIelzjHf1msDP3PxJIRt/nFNfBig==}
@@ -2014,8 +2013,6 @@ snapshots:
     dependencies:
       '@babel/core': 7.24.7
       '@babel/helper-plugin-utils': 7.24.7
-
-  '@babel/standalone@7.24.7': {}
 
   '@babel/template@7.24.7':
     dependencies:

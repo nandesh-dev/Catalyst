@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { useProject } from "../class/Project.jsx";
-import { File as FileClass } from "../class/File";
+import * as Class from "../class/File.jsx";
 
 export function Files() {
   const { isPending, files } = useProject().useFiles();
@@ -12,34 +12,28 @@ export function Files() {
         <div>Loading...</div>
       ) : (
         <div>
-          <Directory name={files.name} children={files.children} />
+          <Directory directory={files} />
         </div>
       )}
     </div>
   );
 }
 
-function Directory({ name, children }) {
+function Directory({ directory }) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
-      <p onClick={() => setIsOpen(!isOpen)}>{(isOpen ? "▼ " : "▶ ") + name}</p>
+      <p onClick={() => setIsOpen(!isOpen)}>
+        {(isOpen ? "▼ " : "▶ ") + directory.name}
+      </p>
       {isOpen && (
         <div className="pl-4">
-          {children.map((child) => {
-            if (child instanceof FileClass) {
-              return (
-                <File key={child.path} name={child.name} path={child.path} />
-              );
+          {directory.children.map((child) => {
+            if (child instanceof Class.File) {
+              return <File key={child.path} file={child} />;
             }
 
-            return (
-              <Directory
-                key={child.path}
-                name={child.name}
-                children={child.children}
-              />
-            );
+            return <Directory key={child.path} directory={child} />;
           })}
         </div>
       )}
@@ -47,10 +41,36 @@ function Directory({ name, children }) {
   );
 }
 
-function File({ name }) {
+function File({ file }) {
+  const [isOpen, setIsOpen] = useState(false);
+  let nodes = file.useNodes();
   return (
     <div>
-      <p>{"|| " + name}</p>
+      <p onClick={() => setIsOpen(!isOpen)}>
+        {(isOpen ? "== " : "|| ") + file.name}
+      </p>
+      {isOpen && (
+        <div className="pl-4">
+          {nodes.map((node) => {
+            return <Node key={node.name} node={node} />;
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Node({ node }) {
+  let project = useProject();
+  return (
+    <div>
+      <button
+        onClick={() => {
+          project.selectNode(node);
+        }}
+      >
+        {node.name}
+      </button>
     </div>
   );
 }
