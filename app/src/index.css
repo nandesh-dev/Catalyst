@@ -1,3 +1,67 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --slate-950: #cdd6d8;
+  --slate-900: #dfe2e4;
+  --slate-800: #fcfcfc;
+  --slate-700: #ffffff;
+  --slate-600: #f4f7f9;
+  --slate-200: #424242;
+  --slate-100: #292929;
+  --bright: #070707;
+
+  --red: #ff8c8c;
+  --orange: #ffb884;
+  --yellow: #ffef5b;
+  --green: #89ff95;
+  --cyan: #71ffdd;
+  --sky: #83c3ff;
+  --blue: #8c89ff;
+  --purple: #d186ff;
+  --pink: #ff8ddf;
+
+  @media (prefers-color-scheme: dark) {
+    --slate-950: #0d1117;
+    --slate-900: #161b22;
+    --slate-800: #161b22;
+    --slate-700: #1d222b;
+    --slate-600: #272d35;
+    --slate-200: #a6afb7;
+    --slate-100: #cdd6d8;
+    --bright: #f8f8f8;
+
+    --red: #ff5353;
+    --orange: #ff8c38;
+    --yellow: #ffec43;
+    --green: #1cf14b;
+    --cyan: #02bf92;
+    --sky: #2395fe;
+    --blue: #3252f9;
+    --purple: #bc4eff;
+    --pink: #ff50cd;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--slate-700);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--slate-600);
+}
+
+::-webkit-resizer {
+  display: none;
+}
