@@ -16,7 +16,7 @@ import { Colors } from "../constants/Colors";
 export function Files() {
   const { isPending, files } = useProject().useFiles();
   return (
-    <div className="w-80 h-full grid grid-rows-[auto_1fr] bg-slate-800 rounded-l p-xl overflow-hidden">
+    <div className="grid grid-rows-[auto_1fr] overflow-hidden">
       <div className="pb-xl">
         <h3 className="text-l text-bright">Files</h3>
       </div>
@@ -34,7 +34,7 @@ const randomColor = () => {
 };
 
 function Directory({ directory, level }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   let outerRef = useRef();
 
   return (
@@ -120,7 +120,7 @@ function File({ file }) {
           </div>
           <div className="">
             {nodes.map((node) => {
-              return <Node key={node.name} node={node} />;
+              return <Node key={window.crypto.randomUUID()} node={node} />;
             })}
           </div>
         </div>

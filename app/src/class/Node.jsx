@@ -1,7 +1,6 @@
 export class Node {
-  constructor(node, parentPath, parentFunctionPath) {
-    this.node = node;
-    this._parentPath = parentPath;
+  constructor(path, parentFunctionPath) {
+    this.path = path;
     this._parentFunctionPath = parentFunctionPath;
 
     this.name = this._parentFunctionPath

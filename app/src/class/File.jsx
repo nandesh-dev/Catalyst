@@ -76,7 +76,7 @@ export class File {
           let parentFunctionPath = getParentFunctionPath(parentPath);
 
           if (parentFunctionPath !== undefined) {
-            this._nodes.push(new Node(node, parentPath, parentFunctionPath));
+            this._nodes.push(new Node(e, parentFunctionPath));
           }
         }
       },
