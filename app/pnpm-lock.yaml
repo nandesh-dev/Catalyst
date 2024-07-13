@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@babel/generator':
+        specifier: ^7.24.7
+        version: 7.24.7
       '@babel/parser':
         specifier: ^7.24.7
         version: 7.24.7

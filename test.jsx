@@ -1,13 +1,11 @@
 import { Nav } from "./test2";
-
 export function App() {
   const name = true;
-  return (
-    <div>
+  return /*Catalyst:f1d085e3-9361-4360-8bb8-8e652db9a812*/<div>
       <Nav />
-      {[1, 2, 3].map((num) => {
-        return <p>{num}</p>;
-      })}
+      {[1, 2, 3].map(num => {
+      return <p>{num}</p>;
+    })}
       <h1>Hello World</h1>
       {name ? <div>name</div> : <div>noname</div>}
       <div>
@@ -28,6 +26,5 @@ export function App() {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 }

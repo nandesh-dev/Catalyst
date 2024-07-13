@@ -70,6 +70,21 @@ export class Project {
   async _loadFiles() {
     let files = await functionClient.getFunction("parseDirectory")();
 
+    if (
+      files.children.filter(({ name }) => name === "catalyst.json").length === 1
+    ) {
+      let readFile = functionClient.getFunction("readFile");
+      this.config = JSON.parse(await readFile("catalyst.json"));
+    } else {
+      this.config = {
+        nodes: {},
+      };
+
+      await this.writeConfig();
+    }
+
+    console.log(this.config);
+
     let traverse = (nodeData) => {
       let node;
       switch (nodeData.type) {
@@ -78,7 +93,7 @@ export class Project {
           node = new Directory(nodeData.name, nodeData.path, children);
           break;
         case "file":
-          node = new File(nodeData.name, nodeData.path);
+          node = new File(nodeData.name, nodeData.path, this);
           break;
       }
 
@@ -86,6 +101,12 @@ export class Project {
     };
 
     this._setFiles(traverse(files));
+  }
+
+  async writeConfig() {
+    console.log(this.config);
+    let writeFile = functionClient.getFunction("writeFile");
+    await writeFile("catalyst.json", JSON.stringify(this.config, null, 4));
   }
 }
 

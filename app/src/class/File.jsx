@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
 import { parse } from "@babel/parser";
 import traverse from "@babel/traverse";
+import generate from "@babel/generator";
+import * as BabelTypes from "@babel/types";
 
 import { Node } from "./Node";
 import { functionClient } from "../functionClient";
 
 export class File {
-  constructor(name, path) {
+  constructor(name, path, project) {
     this.name = name;
     this.path = path;
+    this._project = project;
 
     this._nodes = [];
     this._setNodesArray = [];
@@ -51,6 +54,7 @@ export class File {
     this._ast = parse(this._content, {
       sourceType: "module",
       plugins: ["jsx"],
+      attachComment: true,
     });
 
     traverse(this._ast, {
@@ -76,11 +80,26 @@ export class File {
           let parentFunctionPath = getParentFunctionPath(parentPath);
 
           if (parentFunctionPath !== undefined) {
-            this._nodes.push(new Node(e, parentFunctionPath));
+            let uuid = node.leadingComments
+              ?.filter(({ value }) => value.startsWith("Catalyst"))[0]
+              ?.value.split(":")[1];
+
+            if (!uuid) {
+              uuid = window.crypto.randomUUID();
+              BabelTypes.addComment(node, "leading", `Catalyst:${uuid}`);
+            }
+
+            this._nodes.push(
+              new Node(uuid, e, parentFunctionPath, this._project),
+            );
           }
         }
       },
     });
+
+    this._content = generate(this._ast, {}, this._content).code;
+    let writeFile = functionClient.getFunction("writeFile");
+    await writeFile(this.path, this._content);
 
     this._setNodes(this._nodes);
   }
