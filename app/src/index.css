@@ -65,3 +65,12 @@
 ::-webkit-resizer {
   display: none;
 }
+
+input {
+  background-color: transparent;
+}
+
+input:focus {
+  outline: none;
+  border: none;
+}

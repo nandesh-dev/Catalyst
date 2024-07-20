@@ -1,0 +1,24 @@
+nodes:
+  wmue:
+    name: Home
+    color: red
+    expressions: {}
+  bc55:
+    name: App
+    color: blue
+    expressions:
+      6mq6: null
+      bra9: null
+  f70h:
+    name: Number
+    color: cyan
+    expressions:
+      yk9o: null
+  mj87:
+    name: Name
+    color: red
+    expressions: {}
+  kcuu:
+    name: NoName2
+    color: pink
+    expressions: {}

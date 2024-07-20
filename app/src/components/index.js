@@ -1,2 +1,2 @@
-export * from "./Files.jsx";
-export * from "./TreeEditor.jsx";
+export * from "./FileSystem.jsx";
+export * from "./HtmlEditor.jsx";
