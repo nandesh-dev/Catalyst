@@ -15,9 +15,16 @@ export function FileSystem() {
   let server = useServer();
   let [fileSystem] = server.useFileSystemState();
 
-  if (!fileSystem) return;
-
-  return <Directory directory={fileSystem} />;
+  return (
+    <div className="grid overflow-hidden gap-xl grid-rows-[auto_1fr]">
+      <div>
+        <h3 className="text-l text-bright">Files</h3>
+      </div>
+      <div className="overflow-scroll">
+        {fileSystem && <Directory directory={fileSystem} />}
+      </div>
+    </div>
+  );
 }
 
 function Directory({ directory }) {
