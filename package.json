@@ -5,7 +5,8 @@
   "type": "module",
   "main": "lib/index.js",
   "scripts": {
-    "dev": "nodemon --watch lib/ -- --path /test/"
+    "dev": "nodemon --watch lib/ -- --path /test/",
+    "format": "prettier . --write"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +23,7 @@
     "ws": "^8.18.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "prettier": "3.3.3"
   }
 }
