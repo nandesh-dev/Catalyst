@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+
 export const Colors = {
   secondary: {
     slate: {
@@ -23,6 +25,42 @@ export const Colors = {
     pink: "var(--pink)",
   },
 };
+
+/**
+ * @returns {Colors}
+ */
+export function useComputedColors() {
+  let computeColors = (obj) => {
+    let computedColors = {};
+    for (let key in obj) {
+      if (typeof obj[key] === "object") {
+        computedColors[key] = computeColors(obj[key]);
+      } else {
+        computedColors[key] = getComputedStyle(
+          document.documentElement,
+        ).getPropertyValue(obj[key].substring(4, obj[key].length - 1));
+      }
+    }
+
+    return computedColors;
+  };
+
+  let [computedColors, setComputedColors] = useState(computeColors(Colors));
+
+  useEffect(() => {
+    let mql = window.matchMedia("(prefers-color-scheme: dark)");
+    let eventListener = () => {
+      setComputedColors(computeColors(Colors));
+    };
+    mql.addEventListener("change", eventListener);
+
+    return () => {
+      mql.removeEventListener("change", eventListener);
+    };
+  }, []);
+
+  return computedColors;
+}
 
 export const HTMLColorMap = {
   html: "var(--blue)",
